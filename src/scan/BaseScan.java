@@ -1,19 +1,22 @@
-package scaninterface;
+package scan;
 
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 
-public class Scan {
-	private File file;
-	private FileReader fileReader;
-	private char[] buf = null;
-	private final int BUFSIZE = 1;
-	private int bufIndex = -1;
-	private int currentBufSize = -1;
+import exception.ScanException;
 
-	public Scan(String path) {
+public abstract class BaseScan {
+	private static File file;
+	private static FileReader fileReader;
+	private static char[] buf = null;
+	private static final int BUFSIZE = 1;
+	private static int bufIndex = -1;
+	private static int currentBufSize = -1;
+
+
+	public BaseScan(String path) {
 		checkFileExist(path);
 	}
 
@@ -26,7 +29,7 @@ public class Scan {
 		}
 	}
 
-	public char getNextChar() {
+	protected char getNextChar() {
 		char result = 0;
 		if (bufIndex >= currentBufSize) {
 			currentBufSize = readInBuff();
@@ -38,6 +41,11 @@ public class Scan {
 			result = buf[bufIndex++];
 		}
 		return result;
+	}
+	
+	protected void putBackChar() {
+		if (bufIndex-1 >= 0)
+			bufIndex--;
 	}
 
 	private int readInBuff() {
@@ -51,6 +59,10 @@ public class Scan {
 			e.printStackTrace();
 		}
 		return result;
+	}
+
+	protected void printErr(String msg) throws ScanException{
+		throw new ScanException(msg);
 	}
 
 }

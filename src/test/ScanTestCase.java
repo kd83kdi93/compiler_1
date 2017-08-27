@@ -1,19 +1,24 @@
 package test;
 
+import java.util.List;
+
 import org.junit.Test;
 
-import scaninterface.Scan;
+import scanmanager.ScanManager;
+import scanmanagerinterface.ScanManagerInterface;
+import word.Word;
 
 public class ScanTestCase {
 
+
+
 	@Test
 	public void test() {
-		Scan scan = new Scan("e:/c.txt");
-		char c = scan.getNextChar();
-		while (c != 0) {
-			System.out.print(c);
-			c = scan.getNextChar();
+		ScanManagerInterface scan = new ScanManager("e:/d.txt");
+		List<Word> list = scan.getWords();
+		for (Word w : list) {
+			System.out.println(w);
 		}
 	}
-
+	
 }
