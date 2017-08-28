@@ -39,11 +39,11 @@ public class ScanManager implements ScanManagerInterface{
 				word = scan.getWord();
 				if (word != null) {
 					words.add(word);
-					System.out.println(word);
+					System.out.println("æµ‹è¯•è¾“å‡º: "+word);
 				}
 			} else {
 				try {
-					throw new ScanException("½âÎöÆ÷²»´æÔÚ   "+StateScan.getState());
+					throw new ScanException("ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½   "+StateScan.getState());
 				} catch (ScanException e) {
 					e.printStackTrace();
 					System.exit(0);
