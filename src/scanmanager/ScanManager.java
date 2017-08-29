@@ -10,6 +10,7 @@ import stateenum.State;
 import statescan.IdentifyState;
 import statescan.NumState;
 import statescan.StartState;
+import statescan.SymbolState;
 import word.Word;
 
 public class ScanManager implements ScanManagerInterface{
@@ -24,6 +25,7 @@ public class ScanManager implements ScanManagerInterface{
 		StateScan.addStateScan(State.START, new StartState(path));
 		StateScan.addStateScan(State.NUM, new NumState(path));
 		StateScan.addStateScan(State.IDENTIFY, new IdentifyState(path));
+		StateScan.addStateScan(State.SYMBOL, new SymbolState(path));
 	}
 
 	
@@ -43,7 +45,7 @@ public class ScanManager implements ScanManagerInterface{
 				}
 			} else {
 				try {
-					throw new ScanException("������������   "+StateScan.getState());
+					throw new ScanException("没有相应的状态处理器 "+StateScan.getState());
 				} catch (ScanException e) {
 					e.printStackTrace();
 					System.exit(0);

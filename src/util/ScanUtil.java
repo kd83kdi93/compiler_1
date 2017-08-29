@@ -15,4 +15,68 @@ public class ScanUtil {
 			result = true;
 		return result;
 	}
+
+	public static String isSymbol(char c) {
+		String result = null;
+		switch (c) {
+		case '+':
+			result = "+";
+			break;
+		case '-':
+			result = "-";
+			break;
+		case '*':
+			result = "*";
+			break;
+		case '/':
+			result = "/";
+			break;
+		case '(':
+			result = "(";
+			break;
+		case ')':
+			result = ")";
+			break;
+		case '"':
+			result = "\"";
+			break;
+		case ';':
+			result = ";";
+			break;
+		case '{':
+			result = "{";
+			break;
+		case '}':
+			result = "}";
+			break;
+		case '.':
+			result = ".";
+			break;
+		case '@':
+			result = "@";
+			break;
+		case '=':
+			result = "=";
+			break;
+		case ':':
+			result = ":";
+			break;
+		case '_':
+			result = "_";
+			break;
+		case '<':
+			result = "<";
+			break;
+		case '>':
+			result = ">";
+			break;
+		case '[':
+			result = "[";
+			break;
+		case ']':
+			result = "]";
+			break;
+		}
+		return result;
+	}
 }

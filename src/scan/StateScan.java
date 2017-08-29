@@ -62,9 +62,6 @@ public abstract class StateScan extends BaseScan implements ScanInterface{
 	public Word getWord() {
 		Word word = null;
 		char c = getNextChar();
-		while (getScanUtil().isBlank(c)) {
-			c = getNextChar();
-		}
 		if (c != 0) {
 			word = scanWord(c);
 		} else {
@@ -74,7 +71,7 @@ public abstract class StateScan extends BaseScan implements ScanInterface{
 	}
 
 	/**
-	 * 子类重写该方法用于解析不同的此法单元
+	 * 瀛愮被瑕嗙洊璇ユ柟娉曠敤浜庡疄鐜颁笉鍚岀姸鎬佺殑瑙ｆ瀽
 	 * 
 	 * @return
 	 */

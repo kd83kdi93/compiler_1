@@ -15,17 +15,28 @@ public class StartState extends StateScan {
 	protected Word scanWord(char c) {
 		if (getScanUtil().isNum(c)) {
 			setState(State.NUM);
+			putChar(c);
 		} else if (getScanUtil().isLetter(c)) {
 			setState(State.IDENTIFY);
+			putChar(c);
+		} else if (getScanUtil().isSymbol(c) != null) {
+			setState(State.SYMBOL);
+			putBackChar();
+		}
+		else if (getScanUtil().isBlank(c)) {
+			c = getNextChar();
+			while (getScanUtil().isBlank(c)) {
+				c = getNextChar();
+			}
+			putBackChar();
 		} else {
 			try {
-				printErr("½âÎö´íÎó    "+c);
+				printErr("æ— æ³•å¤„ç†çš„å­—ç¬¦   "+c);
 			} catch (ScanException e) {
 				e.printStackTrace();
 				System.exit(0);
 			}
 		}
-		putChar(c);
 		return null;
 	}
 

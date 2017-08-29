@@ -1,5 +1,5 @@
 package stateenum;
 
 public enum State {
-	START,NUM,IDENTIFY,END
+	START,NUM,IDENTIFY,END,SYMBOL
 }
