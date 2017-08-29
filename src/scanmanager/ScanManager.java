@@ -5,6 +5,7 @@ import java.util.List;
 
 import exception.ScanException;
 import scan.StateScan;
+import scaninterface.ScanInterface;
 import scanmanagerinterface.ScanManagerInterface;
 import stateenum.State;
 import statescan.IdentifyState;
@@ -32,7 +33,7 @@ public class ScanManager implements ScanManagerInterface{
 	
 	@Override
 	public List<Word> getWords() {
-		StateScan scan = null;
+		ScanInterface scan = null;
 		Word word = null;
 		while (StateScan.getState() != State.END) {
 			State state = StateScan.getState();
