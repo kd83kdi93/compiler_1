@@ -41,7 +41,7 @@ public class ScanManager implements ScanManagerInterface{
 				word = scan.getWord();
 				if (word != null) {
 					words.add(word);
-					System.out.println("测试输出: "+word);
+//					System.out.println("测试输出: "+word);
 				}
 			} else {
 				try {
