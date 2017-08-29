@@ -43,7 +43,6 @@ public class ScanManager implements ScanManagerInterface{
 				if (word != null) {
 					words.add(word);
 //					System.out.println("测试输出: "+word);
-//					
 				}
 			} else {
 				try {
