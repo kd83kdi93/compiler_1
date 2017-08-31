@@ -3,7 +3,6 @@ package scanmanager;
 import java.util.ArrayList;
 import java.util.List;
 
-import exception.ScanException;
 import scan.StateScan;
 import scaninterface.ScanInterface;
 import scanmanagerinterface.ScanManagerInterface;
@@ -13,6 +12,7 @@ import statescan.NumState;
 import statescan.StartState;
 import statescan.SymbolState;
 import word.Word;
+import exception.ScanException;
 
 public class ScanManager implements ScanManagerInterface{
 	private List<Word> words;
