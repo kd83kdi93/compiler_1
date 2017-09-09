@@ -15,9 +15,16 @@ public class NumState extends StateScan {
 	protected Word scanWord(char c) {
 		Word word = null;
 		char tmp = c;
-		while (getScanUtil().isNum(tmp)) {
-			putChar(tmp);
-			tmp = getNextChar();
+		if (getScanUtil().isNum(tmp)) {
+			while (getScanUtil().isNum(tmp)) {
+				putChar(tmp);
+				tmp = getNextChar();
+				if (checkDalAndAfterNums(tmp)){
+					break;
+				}
+			}
+		} else if (getScanUtil().isDal(tmp)) {
+			checkDalAndAfterNums(tmp);
 		}
 		if (getScanUtil().isLetter(tmp)) {
 			try {
@@ -33,6 +40,20 @@ public class NumState extends StateScan {
 		setState(State.START);
 		clearChars();
 		return word;
+	}
+
+	public boolean checkDalAndAfterNums(char tmp) {
+		boolean result = false;
+		if (getScanUtil().isDal(tmp)) {
+			putChar(tmp);
+			tmp = getNextChar();
+			while (getScanUtil().isNum(tmp)) {
+				putChar(tmp);
+				tmp = getNextChar();
+			}
+			result = true;
+		}
+		return result;
 	}
 
 }

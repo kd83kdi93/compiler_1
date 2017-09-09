@@ -53,4 +53,8 @@ public class ScanUtil {
 		result = symbolMap.get(c);
 		return result;
 	}
+	
+	public static boolean isDal(char c) {
+		return c == '.';
+	}
 }
