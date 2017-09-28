@@ -18,4 +18,8 @@ public class ParseUtil {
 	public static boolean isDiv(Word word) {
 		return "/".equals(word.getValue());
 	}
+
+	public static boolean isRp(Word word) {
+		return ")".equals(word.getValue());
+	}
 }

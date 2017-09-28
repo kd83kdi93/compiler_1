@@ -5,6 +5,8 @@ import java.util.List;
 import org.junit.Test;
 
 import parsemanager.ParseManager;
+import parsemanager.ParseManager;
+import returnvalue.ReturnValue;
 import returnvalue.ReturnValue;
 import scanmanager.ScanManager;
 import scanmanagerinterface.ScanManagerInterface;
@@ -24,6 +26,9 @@ public class ParseManagerTest {
 		System.out.println(result.getValue());
 	}
 	
+
+	
+	
 	
 	@Test
 	public void test1() {
@@ -40,5 +45,21 @@ public class ParseManagerTest {
 		word = parseManager.getNextWord();
 		System.out.println(word);
 	}
+	
+	
+	@Test
+	public void tt() {
+		ScanManagerInterface scanManagerInterface = new ScanManager("D:/personal_work/cal.txt");
+//		List<Word> list = scanManagerInterface.getWords();
+//		for (Word w : list) {
+//			System.out.println(w);
+//		}
+		ParseManager parseManager = new ParseManager(scanManagerInterface);
+		ReturnValue result = parseManager.parse();
+		result.print(result);
+		System.out.println("Total: "+result.calculator(result));
+	}
+	
+
 
 }

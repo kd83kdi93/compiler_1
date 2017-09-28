@@ -3,6 +3,7 @@ package parsemanager;
 import java.util.List;
 
 import returnvalue.ReturnValue;
+import returnvalue.ReturnValue;
 import scanmanagerinterface.ScanManagerInterface;
 import util.ParseUtil;
 import word.Word;
@@ -23,119 +24,81 @@ public class ParseManager {
 
 	private ReturnValue expression() {
 		ReturnValue result = term();
-		if (result != null) {
-			result = expression1(result);
-		}
-		else {
-			printErr("expression 无法解析的单词 " + result);
-		}
+		result = expression1(result);
 		return result;
 	}
 
-	private ReturnValue expression1(ReturnValue a) {
-		Word op = getNextWord();
-		boolean errorFlag = true;
+	private ReturnValue expression1(ReturnValue aTmp) {
+		ReturnValue a = aTmp;
 		ReturnValue b = null;
-		ReturnValue result = a;
-		double total = (double) a.getValue();
+		ReturnValue head = null;
+		Word op = getNextWord();
 		if (op != null) {
-			
 			while (ParseUtil.isPlus(op) || ParseUtil.isSub(op)) {
-				errorFlag = false;
 				b = term();
-				if (ParseUtil.isPlus(op)) {
-					total += (double) b.getValue();
-				}
-				else {
-					total -= (double) b.getValue();
-				}
+				head = new ReturnValue(op.getValue(), String.class, op.getType());
+				head.setLeft(a);
+				head.setRight(b);
+				a = head;
 				op = getNextWord();
 				if (op == null) {
 					break;
 				}
 			}
-			if (errorFlag) {
-				try {
-					throw new ParseException("不能识别的单词 " + currentWord);
-				} catch (ParseException e) {
-					e.printStackTrace();
-					System.exit(0);
-				}
+			if ((op!=null)&&(ParseUtil.isRp(op))) {
+				putBackWord();
 			}
-			result = new ReturnValue(Double.class, total);
 		}
-		return result;
+		return a;
 	}
 
 	private ReturnValue term() {
 		ReturnValue result = factor();
-		if (result != null) {
-			result = term1(result);
-		} else {
-			printErr("term 无法识别的单词" + result);
-		}
+		result = term1(result);
 		return result;
 	}
 
-	private ReturnValue term1(ReturnValue a) {
-		boolean errorFlag = true;
-		double total = (double) a.getValue();
-		ReturnValue result = a;
+	private ReturnValue term1(ReturnValue aTmp) {
+		ReturnValue a = aTmp;
 		ReturnValue b = null;
+		ReturnValue head = null;
 		Word op = getNextWord();
 		if (op != null) {
 			while (ParseUtil.isMul(op) || ParseUtil.isDiv(op)) {
-				errorFlag = false;
 				b = factor();
-				if (b != null) {
-					if (ParseUtil.isMul(op)) {
-						total *= (double) b.getValue();
-					} else {
-						total /= (double) b.getValue();
-					}
-					op = getNextWord();
-					if (op == null) {
-						break;
-					} else if (ParseUtil.isPlus(op) || ParseUtil.isSub(op)) {
-						putBackWord();
-					}
-				} else {
-					printErr("term1 不能识别的单词 " + b);
+				head = new ReturnValue(op.getValue(), String.class, op.getType());
+				head.setLeft(a);
+				head.setRight(b);
+				a = head;
+				op = getNextWord();
+				if (op == null) {
+					break;
 				}
 			}
-			if (errorFlag) {
-				if (!(ParseUtil.isPlus(op) || ParseUtil.isSub(op))) {
-					printErr("term1 不能识别的单词 " + op);
-				}
+			if ((op!=null)&&(ParseUtil.isPlus(op) || ParseUtil.isSub(op) || ParseUtil.isRp(op))) {
 				putBackWord();
 			}
-			result = new ReturnValue(Double.class, total);
 		}
-		return result;
+		return a;
 	}
 
 	private ReturnValue factor() {
 		ReturnValue result = null;
-		currentWord = getNextWord();
+		Word currentWord = getNextWord();
 		if ("num".equals(currentWord.getType())) {
 			double factorValue = Double.parseDouble(currentWord.getValue());
-			result = new ReturnValue(Double.class, factorValue);
-		} else {
-			printErr("factor 不能识别的单词 "+currentWord);
+			result = new ReturnValue(factorValue, Double.class, "num");
 		}
-		// 先不考虑括号
-//		else if ("(".equals(currentWord.getType())) {
-//			currentWord = getNextWord();
-//			result = expression();
-//			if (!match(")")) {
-//				try {
-//					throw new ParseException("不能识别的单词 " + currentWord);
-//				} catch (ParseException e) {
-//					e.printStackTrace();
-//					System.exit(0);
-//				}
-//			}
-//		}
+		else if ("(".equals(currentWord.getType())) {
+			result = expression();
+			currentWord = getNextWord();
+			if (!match(currentWord,")")) {
+				printErr("不能识别的单词:" + currentWord + "期待的是)");
+			}
+		}
+		else {
+			printErr("factor 不能识别的单词 " + currentWord);
+		}
 		return result;
 	}
 
@@ -153,14 +116,14 @@ public class ParseManager {
 		}
 	}
 
-	private boolean match(String matchWord) {
-		if (currentWord.getValue().equals(matchWord)) {
-			currentWord = getNextWord();
+	private boolean match(Word matchWord,String matchType) {
+		if (matchWord.getValue().equals(matchType)) {
 			return true;
 		}
+		printErr("不能匹配 "+matchWord.getValue()+" 对应 "+matchType);
 		return false;
 	}
-	
+
 	private void printErr(String msg) {
 		try {
 			throw new ParseException(msg);
