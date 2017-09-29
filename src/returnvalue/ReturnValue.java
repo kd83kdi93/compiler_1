@@ -54,6 +54,18 @@ public class ReturnValue {
 		print(head.getRight());
 	}
 	
+	
+	public static void executeIf(ReturnValue head) {
+		if (head.getType().equals("if")) {
+			double result = calculator(head.getClass().cast(head.getValue()));
+			if (result < 5) {
+				System.out.println(calculator(head.getLeft()));
+			} else {
+				System.out.println(calculator(head.getRight()));
+			}
+		}
+	}
+	
 	public static Double calculator(ReturnValue head) {
 		if (head == null) {
 			return null;
