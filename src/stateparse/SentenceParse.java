@@ -1,11 +1,12 @@
 package stateparse;
 
 import parse.ParseBase;
+import parseinterface.ParseInterface;
+import parsemanager.ParseManager;
 import returnvalue.ReturnValue;
 
 public class SentenceParse extends ParseBase {
-	ExpressionParse expressionParse = new ExpressionParse();
-	IfParse ifParse = new IfParse();
+	
 
 	@Override
 	protected ReturnValue parse() {
@@ -13,11 +14,16 @@ public class SentenceParse extends ParseBase {
 	}
 
 	private ReturnValue sentense() {
+		ParseInterface expresseionParse = ParseManager.getParse(ExpressionParse.class);
+		ParseInterface ifParse = ParseManager.getParse(IfParse.class);
 		ReturnValue head = null;
 		ReturnValue left = null;
 		ReturnValue right = null;
 		do {
 			if (currentWord == null) {
+				break;
+			} else if (!(currentWord.getType().equals("id") || currentWord.getValue().equals("if"))) {
+//				putBackWord();
 				break;
 			}
 			if (currentWord.getValue().equals("if")) {
@@ -28,7 +34,7 @@ public class SentenceParse extends ParseBase {
 				matchByType("id");
 				matchByValue("=");
 				head = new ReturnValue("=", String.class, "=");
-				right = expressionParse.getParseTree();
+				right = expresseionParse.getParseTree();
 				head.setLeft(left);
 				head.setRight(right);
 			}

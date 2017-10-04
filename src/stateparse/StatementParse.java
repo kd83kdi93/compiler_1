@@ -1,18 +1,19 @@
 package stateparse;
 
 import parse.ParseBase;
+import parseinterface.ParseInterface;
+import parsemanager.ParseManager;
 import returnvalue.ReturnValue;
 
 public class StatementParse extends ParseBase {
 
-	private SentenceParse sentenceParse = new SentenceParse();
-	
 	@Override
 	protected ReturnValue parse() {
 		return statement();
 	}
 
 	private ReturnValue statement() {
+		ParseInterface sentenceParse = ParseManager.getParse(SentenceParse.class);
 		ReturnValue head = sentenceParse.getParseTree();
 		ReturnValue oldHead = head;
 		ReturnValue next = null;
