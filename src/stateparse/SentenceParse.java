@@ -20,10 +20,7 @@ public class SentenceParse extends ParseBase {
 		ReturnValue left = null;
 		ReturnValue right = null;
 		do {
-			if (currentWord == null) {
-				break;
-			} else if (!(currentWord.getType().equals("id") || currentWord.getValue().equals("if"))) {
-//				putBackWord();
+			if (currentWord == null || (!(currentWord.getType().equals("id") || currentWord.getValue().equals("if")))) {
 				break;
 			}
 			if (currentWord.getValue().equals("if")) {

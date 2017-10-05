@@ -95,10 +95,10 @@ public class ReturnValue {
 		if (head.getType().equals("if")) {
 			double result = calculator(head.getClass().cast(head.getValue()));
 			if (result < 5) {
-				System.out.println(calculator(head.getLeft()));
+				executeStatement(head.getLeft());
 			}
 			else {
-				System.out.println(calculator(head.getRight()));
+				executeStatement(head.getRight());
 			}
 		}
 	}
