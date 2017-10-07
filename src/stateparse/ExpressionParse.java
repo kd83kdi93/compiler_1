@@ -70,8 +70,13 @@ public class ExpressionParse extends ParseBase{
 
 	private ReturnValue factor() {
 		ReturnValue result = null;
+		int sign = 1;
+		if ("-".equals(currentWord.getType())) {
+			matchByType("-");
+			sign = -1;
+		}
 		if ("num".equals(currentWord.getType())) {
-			double factorValue = Double.parseDouble(currentWord.getValue());
+			double factorValue = Double.parseDouble(currentWord.getValue()) * sign;
 			result = new ReturnValue(factorValue, Double.class, "num");
 			matchByType("num");
 		}
